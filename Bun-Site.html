@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h1 id = "title">SeaFood Survey</h1>
+    <p id ="description">Thank you for taking our survey</p>
+    <form id = "survey-form">
+  
+   <fieldset>
+     <label id ="name-label" >Name: <input type= "text" id ="name" name="name"required placeholder ="Please enter your name" </label>
+     <label id ="email-label">Email: <input type= "email" id ="email" name="email"  placeholder ="Please enter your email" required </label>
+     <label id= "number-label">Age : <input type= "number" id ="number" name="number"  placeholder ="Please enter your age" max ="69" min="13"required </label>
+      <label>Which describes your diet?
+       <select required id = "choice" name="diet"> 
+       <option value ="0"> Choose one</option>
+        <option value = "1">Meat-based</option>
+        <option value = "2">Non-Meat-based</option>
+        <option value = "3">Plant-Based</option>
+        </select> 
+     </label>
+    </fieldset>
+    <fieldset>
+      <legend>Do you have any seafood realted medical problems?</legend>
+      <label for ="yes"><input id ="yes"  type ="radio" name ="medical" class ="inline" value ="1" checked>Yes</label>
+      <label for ="no"><input id ="no"  type ="radio" name ="medical" class ="inline"value ="2" >No</label>
+      </fieldset>
+      <fieldset>
+        <label>Which are these seafood related meals are your favortive? <select id ="dropdown" name="favorite_meal" required>
+        <option value = "0"> </option>
+        <option value = "1"> Lobster </option>
+        <option value = "2"> Fish </option>
+        <option value = "3"> Crab </option>
+        <option value = "4"> obsyer </option>
+        </select>
+         </label>
+      </fieldset>
+<fieldset>
+      <legend required>Which of these seafood restaurants have you heard of/tried</legend>
+      <label for ="mcLoone's-boathouse"><input id ="mcLoone's-boathouse"  type ="radio" name ="restaurant" class ="inline" value="1" >McLoone's Boathouse</label>
+      <label for ="nero's-grille"><input id ="nero's-grille"  type ="radio" name ="restaurant" class ="inline" value="2" >Nero's Grille</label>
+      <label for ="white-castle"><input id = "white-castle"  type ="radio" name ="restaurant" class ="inline" value ="3" >White Castle</label>
+      <label for ="crabbae"><input id ="crabbae"  type ="radio" name ="restaurant" class ="inline" value="4"  >Crabbae</label>
+      <label for ="thavma"><input id ="thavma"  type ="radio" name ="restaurant" class ="inline"value="5"  >THAVMA Mediterranean Grill
+</label>
+      <label for ="grigliae"><input id ="grigliae"  type ="radio" name ="restaurant" class ="inline"value="6"  >La Grigliae</label>
+      <label for ="red-lobster"><input id ="red-lobster"  type ="radio" name ="restaurant" class ="inline"value="7"  >Red Lobster</label>
+      <label for ="all-the-above"><input id ="all-the-above"  type ="radio" name ="restaurant" class ="inline"value="8"  >All of the above</label>
+      <label for ="none"><input id ="none"  type ="radio" name ="restaurant" class ="inline" value="9"  >None of these</label>
+      </fieldset>
+      <fieldset>
+        <h3>Could you give a memerable experience in relation to seafood<textarea name="experience" rows ="8" cols = "70" placeholder ="Please enter text here"></textarea></h3>
+      </fieldset>
+      <label> I promise not to sue the maker of this website for whatever reason:
+      <input type ="checkbox" name="no_sue" value ="1">
+      </label>
+      <label> I'm gonna sue you lol
+      <input type ="checkbox" name="will_sue" value ="1">
+      </label>
+      <input id="submit" type ="submit" value ="submit" >
+
+    </form>
+
+    <script>
+        // Run API call on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            var name = 'Jackrabbit';
+            const url = 'https://api.api-ninjas.com/v1/animals?name=' + name;
+
+            fetch(url, {
+                method: 'GET',
+                headers: { 
+                    'X-Api-Key': '67oZYx5LVQm0O+Fe9Xz4VA==rZEeyNhvZDq0N32L',
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+                return res.json();
+            })
+            .then(result => {
+                console.log(result);
+            })
+            .catch(error => {
+                console.error('Error: ', error.message);
+            });
+
+            // Handle form submission
+            const form = document.getElementById('survey-form');
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const formData = new FormData(form);
+                const data = {
+                    name: formData.get('name'),
+                    email: formData.get('email'),
+                    age: parseInt(formData.get('number')) || null,
+                    diet: formData.get('diet'),
+                    medical: formData.get('medical'),
+                    favorite_meal: formData.get('favorite_meal'),
+                    restaurant: formData.get('restaurant'),
+                    experience: formData.get('experience'),
+                    no_sue: formData.get('no_sue') === '1',
+                    will_sue: formData.get('will_sue') === '1'
+                };
+
+                fetch('http://localhost:3000/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(res => res.json())
+                .then(result => {
+                    if (result.success) {
+                        alert('Survey submitted successfully!');
+                        form.reset();
+                    } else {
+                        alert('Error: ' + result.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error submitting survey. Make sure the server is running.');
+                });
+            });
+        });
+    </script>
+ </body> 
+  
+ </html>

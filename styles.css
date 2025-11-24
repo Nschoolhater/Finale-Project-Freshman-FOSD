@@ -1,0 +1,45 @@
+label {
+    margin:  0.5em 0 ;
+    display: block;
+  }
+  
+  h1,p {
+    margin: 1em auto;
+    text-align: center;
+  }
+  
+  .inline {
+    display: inline;
+  }
+  
+  body {
+    background-image: url(https://th.bing.com/th/id/OIP.229XD1pG5VJ6-b1X1PZl3wHaHa?rs=1&pid=ImgDetMain);
+  }
+  
+  option {
+    display: block;
+  }
+  
+  textarea {
+     margin: 1em auto; 
+  
+  }
+  
+  h2 {
+     margin: left auto;
+    text-align: center;
+  }
+  
+  
+  
+  input[type ="submit"] {
+     text-align: center;
+     margin: 1em auto; 
+     display: block;
+     font-size: 1.1rem;
+     height: 2rem;
+     width: 70%;
+     border-color: black;
+     min-width: 300px;
+  
+  }
