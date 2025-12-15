@@ -1,0 +1,14 @@
+node_modules/
+.env
+.env.local
+.env.*.local
+survey.db
+users.json
+surveys.json
+*.log
+.DS_Store
+.vercel
+.vscode
+*.swp
+*.swo
+*~

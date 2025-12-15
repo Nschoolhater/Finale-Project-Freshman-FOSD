@@ -4,14 +4,110 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <!-- add responsive header -->
+    <header class="site-header">
+      <div class="brand">
+        <strong>SeaFood Survey</strong>
+        <!-- new: header user display next to brand -->
+        <span id="header-user" style="margin-left:0.75rem; font-weight:600; color:#036;">Guest</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:0.5rem">
+        <div style="display:none" id="desktop-links"> <!-- placeholder for future desktop nav --> </div>
+        <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">☰</button>
+        <!-- header logout button: hidden by default, shown when user is logged in -->
+        <button id="header-logout" class="hdr-logout" style="display:none; margin-left:.5rem;">Logout</button>
+      </div>
+    </header>
+
+    <!-- mobile nav (slide-in) -->
+    <nav id="mobile-nav" class="mobile-nav" aria-hidden="true">
+      <button class="close-nav" id="close-nav">Close ✕</button>
+      <a href="#survey-form" class="nav-link">Survey</a>
+      <button id="mobile-signup" class="nav-link">Signup</button>
+      <button id="mobile-login" class="nav-link">Login</button>
+      <button id="mobile-account" class="nav-link">Account</button>
+      <!-- mobile logout -->
+      <button id="mobile-logout" class="nav-link" style="display:none;">Logout</button>
+    </nav>
+
+    <!-- top auth-only nav (hidden by default; shown when logged in) -->
+    <nav id="auth-top-nav" class="auth-top-nav" style="display:none; padding:.5rem 1rem; background:#fff; border-bottom:1px solid #eee;">
+      <a id="nav-rabbit-facts" href="rabbit-facts.html" class="top-nav-item">Rabbit Facts</a>
+      <a id="nav-trusted-sites" href="trusted-sites.html" class="top-nav-item" style="margin-left:1rem;">Trusted Sites</a>
+      <a id="nav-upload-rabbit" href="upload-rabbit.html" class="top-nav-item" style="margin-left:1rem;">Upload Rabbit</a>
+    </nav>
+
     <h1 id = "title">SeaFood Survey</h1>
     <p id ="description">Thank you for taking our survey</p>
+    <!-- Replace original signup form with labeled inputs + login form toggle -->
+    <form id="auth-form">
+      <div class ="wrapper">
+        <h1 id="auth-title">Signup</h1>
+      </div>
+      <fieldset>
+        <div>
+          <label for="username-input"><span class="icon">👤</span> Username
+            <input type="text" id="username-input" name="username" required placeholder="Please enter your name">
+          </label>
+        </div>
+        <div>
+          <label for="email-input"><span class="icon">📧</span> Email
+            <input type="email" id="email-input" name="email" required placeholder="Please enter your email">
+          </label>
+        </div>
+        <div>
+          <label for="password-input"><span class="icon">🔒</span> Password
+            <input type="password" id="password-input" name="password" required placeholder="Please enter your password">
+          </label>
+        </div>
+        <div>
+          <label for="repeat-password"><span class="icon">🔁</span> Repeat Password
+            <input type="password" id="repeat-password" name="repeat-password" required placeholder="Repeat your password">
+          </label>
+        </div>
+        <div class="auth-actions">
+          <button type="submit" id="signup-btn">Signup</button>
+          <button type="button" id="show-login">Have an account? Login</button>
+        </div>
+      </fieldset>
+    </form>
+
+    <!-- Hidden login form (toggleable) -->
+    <form id="login-form" style="display:none;">
+      <div class ="wrapper">
+        <h1>Login</h1>
+      </div>
+      <fieldset>
+        <div>
+          <label for="login-email"><span class="icon">📧</span> Email
+            <input type="email" id="login-email" name="login-email" required placeholder="Enter your email">
+          </label>
+        </div>
+        <div>
+          <label for="login-password"><span class="icon">🔒</span> Password
+            <input type="password" id="login-password" name="login-password" required placeholder="Enter your password">
+          </label>
+        </div>
+        <div class="auth-actions">
+          <button type="submit">Login</button>
+          <button type="button" id="show-signup">New user? Signup</button>
+        </div>
+      </fieldset>
+    </form>
+
+    <!-- Account panel shown when user is logged in -->
+    <div id="account-panel" style="display:none; margin:0.5rem 0;">
+      <p id="account-user" style="margin:0 0 0.5rem 0;">Logged in as: <strong></strong></p>
+      <button type="button" id="logout-btn">Logout</button>
+      <button type="button" id="delete-account-btn" style="margin-left:0.5rem; color:#900;">Delete Account</button>
+    </div>
+
     <form id = "survey-form">
+      
+       
   
    <fieldset>
-     <label id ="name-label" >Name: <input type= "text" id ="name" name="name"required placeholder ="Please enter your name" </label>
-     <label id ="email-label">Email: <input type= "email" id ="email" name="email"  placeholder ="Please enter your email" required </label>
-     <label id= "number-label">Age : <input type= "number" id ="number" name="number"  placeholder ="Please enter your age" max ="69" min="13"required </label>
+     <label id= "number-label">Age : <input type= "number" id ="number" name="number"  placeholder ="Please enter your age" max ="69" min="13"required> </label>
       <label>Which describes your diet?
        <select required id = "choice" name="diet"> 
        <option value ="0"> Choose one</option>
@@ -22,25 +118,25 @@
      </label>
     </fieldset>
     <fieldset>
-      <legend>Do you have any seafood realted medical problems?</legend>
+      <legend>Do you have any animal realted medical problems?</legend>
       <label for ="yes"><input id ="yes"  type ="radio" name ="medical" class ="inline" value ="1" checked>Yes</label>
       <label for ="no"><input id ="no"  type ="radio" name ="medical" class ="inline"value ="2" >No</label>
       </fieldset>
       <fieldset>
-        <label>Which are these seafood related meals are your favortive? <select id ="dropdown" name="favorite_meal" required>
+        <label>Which of these animals do you have experience with? <select id ="dropdown" name="favorite_meal" required>
         <option value = "0"> </option>
-        <option value = "1"> Lobster </option>
-        <option value = "2"> Fish </option>
-        <option value = "3"> Crab </option>
-        <option value = "4"> obsyer </option>
+        <option value = "1"> Dogs </option>
+        <option value = "2"> Cats </option>
+        <option value = "3"> Birds </option>
+        <option value = "4"> Rabbits </option>
         </select>
          </label>
       </fieldset>
 <fieldset>
-      <legend required>Which of these seafood restaurants have you heard of/tried</legend>
-      <label for ="mcLoone's-boathouse"><input id ="mcLoone's-boathouse"  type ="radio" name ="restaurant" class ="inline" value="1" >McLoone's Boathouse</label>
-      <label for ="nero's-grille"><input id ="nero's-grille"  type ="radio" name ="restaurant" class ="inline" value="2" >Nero's Grille</label>
-      <label for ="white-castle"><input id = "white-castle"  type ="radio" name ="restaurant" class ="inline" value ="3" >White Castle</label>
+      <legend required>Which of these jobs have you had before</legend>
+      <label for ="mcLoone's-boathouse"><input id ="mcLoone's-boathouse"  type ="radio" name ="restaurant" class ="inline" value="1" >Bady Sitter</label>
+      <label for ="nero's-grille"><input id ="nero's-grille"  type ="radio" name ="restaurant" class ="inline" value="2" >Animal Sitter</label>
+      <label for ="white-castle"><input id = "white-castle"  type ="radio" name ="restaurant" class ="inline" value="3" >White Castle</label>
       <label for ="crabbae"><input id ="crabbae"  type ="radio" name ="restaurant" class ="inline" value="4"  >Crabbae</label>
       <label for ="thavma"><input id ="thavma"  type ="radio" name ="restaurant" class ="inline"value="5"  >THAVMA Mediterranean Grill
 </label>
@@ -50,7 +146,7 @@
       <label for ="none"><input id ="none"  type ="radio" name ="restaurant" class ="inline" value="9"  >None of these</label>
       </fieldset>
       <fieldset>
-        <h3>Could you give a memerable experience in relation to seafood<textarea name="experience" rows ="8" cols = "70" placeholder ="Please enter text here"></textarea></h3>
+        <h3>Could you give a memerable experience in relation to Animals<textarea name="experience" rows ="8" cols = "70" placeholder ="Please enter text here"></textarea></h3>
       </fieldset>
       <label> I promise not to sue the maker of this website for whatever reason:
       <input type ="checkbox" name="no_sue" value ="1">
@@ -62,74 +158,37 @@
 
     </form>
 
-    <script>
-        // Run API call on page load
-        window.addEventListener('DOMContentLoaded', function() {
-            var name = 'Jackrabbit';
-            const url = 'https://api.api-ninjas.com/v1/animals?name=' + name;
+    <!-- small live preview of signed-in name -->
+    <div style="margin:0.5rem 0;">
+      Welcome, <span id="username-preview">Guest</span>
+    </div>
 
-            fetch(url, {
-                method: 'GET',
-                headers: { 
-                    'X-Api-Key': '67oZYx5LVQm0O+Fe9Xz4VA==rZEeyNhvZDq0N32L',
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(res => {
-                if (!res.ok) {
-                    throw new Error(`HTTP error! status: ${res.status}`);
-                }
-                return res.json();
-            })
-            .then(result => {
-                console.log(result);
-            })
-            .catch(error => {
-                console.error('Error: ', error.message);
-            });
+    <!-- server status banner (hidden unless server is unreachable) -->
+    <div id="server-status" style="display:none; background:#ffe; color:#900; padding:.6rem; margin-bottom:.5rem; border:1px solid #fdd; border-radius:4px;">
+      Server not reachable: please start the server (node server.js) and open via http://localhost:3000/Bun-Site.html
+    </div>
 
-            // Handle form submission
-            const form = document.getElementById('survey-form');
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const formData = new FormData(form);
-                const data = {
-                    name: formData.get('name'),
-                    email: formData.get('email'),
-                    age: parseInt(formData.get('number')) || null,
-                    diet: formData.get('diet'),
-                    medical: formData.get('medical'),
-                    favorite_meal: formData.get('favorite_meal'),
-                    restaurant: formData.get('restaurant'),
-                    experience: formData.get('experience'),
-                    no_sue: formData.get('no_sue') === '1',
-                    will_sue: formData.get('will_sue') === '1'
-                };
+    <!-- modal container for popups -->
+    <div id="modal-backdrop" class="modal-backdrop" role="dialog" aria-modal="true" style="display:none;">
+      <div class="modal" id="modal">
+        <div class="modal-header">
+          <div id="modal-title">Info</div>
+          <button class="modal-close" id="modal-close" aria-label="Close popup">✕</button>
+        </div>
+        <div class="modal-body" id="modal-body">
+          <!-- dynamic content goes here -->
+        </div>
+      </div>
+    </div>
 
-                fetch('http://localhost:3000/submit', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                })
-                .then(res => res.json())
-                .then(result => {
-                    if (result.success) {
-                        alert('Survey submitted successfully!');
-                        form.reset();
-                    } else {
-                        alert('Error: ' + result.error);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Error submitting survey. Make sure the server is running.');
-                });
-            });
-        });
-    </script>
- </body> 
-  
- </html>
+    <!-- audio player (place assets/bg-music.mp3 in assets/) -->
+    <audio id="bg-audio" src="Inst.mp3" loop preload="auto"></audio>
+    <button id="audio-toggle" aria-pressed="false" title="Play / Pause background music">►</button>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <!-- config and main JS -->
+    <script src="client-config.js"></script>
+    <script src="jave.js"></script>
+  </body>
+</html>
